@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Belajar Vue Router</h1>
+
+      <!-- Pengganti tag <a href=""></a>  -->
+      <router-link to="/halaman1">halaman1</router-link>
+      <router-link to="/halaman2">halaman2</router-link>
+      <router-link to="/halaman3">halaman3</router-link>
+
+      <!-- Untuk Menampilkan component secara dinamis , sesuai dengan route yang diakses -->
+      <router-view></router-view>
+    </div>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+      // Kita membuat 2 component , yaitu Home dan About
+      const Component1 = { template: "<div>Ini Halaman Component1</div>" };
+      const Component2 = { template: "<div>Ini Halaman Component2 hanya untuk user</div>" };
+      const Component3 = { template: "<div>Ini Halaman Component3 hanya untuk admin</div>" };
+
+      // Kemudian kita arahkan setiap route ke component yang kita inginkan
+      const routes = [
+        { path: "/halaman1", component: Component1 },
+        { path: "/halaman2", component: Component2, meta: { login: true } },
+        { path: "/halaman3", component: Component3, meta: { login: true, admin: true } },
+      ];
+
+      //Kemudian kita instansiasi object Vue Router dan tambahkan routes yang sudah kita buat tadi
+      const router = new VueRouter({
+        routes,
+      });
+
+      router.beforeEach((to, before, next) => {
+        if (to.matched.some((record) => record.meta.login)) {
+          let auth = true;
+          if (to.matched.some((record) => record.meta.admin)) {
+            let admin = false;
+            if (!admin) {
+              alert("halaman ini hanya untuk admin");
+              next(false);
+            } else {
+              next();
+              alert("selamat datang admin");
+            }
+          } else {
+            if (!auth) {
+              alert("silahkan login dahulu");
+              next(false);
+            } else {
+              next();
+              alert("success");
+            }
+          }
+        } else {
+          next();
+        }
+      });
+
+      //Kemudian kita tambahkan object VueRouter yang kita namakan router ke object Vue
+
+      var vm = new Vue({
+        el: "#app",
+        router,
+      });
+    </script>
+  </body>
+</html>
