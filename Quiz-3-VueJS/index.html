@@ -38,7 +38,7 @@
         <label>Description : </label>
         <textarea name="description" :disabled="buttonStatus == 'upload'" ref="description" v-model="description"></textarea>
 
-        <div v-if="buttonStatus = 'submit'">
+        <div v-if="buttonStatus == 'submit'">
           <input type="submit" value="SUBMIT" />
         </div>
         <div v-else-if="buttonStatus == 'update'">
