@@ -41,5 +41,8 @@ export default {
         .catch((error) => console.log(error));
     },
   },
+  created() {
+    this.go();
+  },
 };
 </script>
