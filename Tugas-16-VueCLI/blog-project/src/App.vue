@@ -13,7 +13,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <div class="pa-2" v-if="!guest">
+        <div class="pa-2" v-if="guest">
           <v-btn block color="primary" class="mb-1">
             <v-icon left>mdi-lock</v-icon>
             Login
@@ -25,6 +25,7 @@
         </div>
 
         <v-divider></v-divider>
+
         <v-list-item v-for="(item, index) in menus" :key="`menu-${index}`" :to="item.route">
           <v-list-item-icon>
             <v-icon left>{{ item.icon }}</v-icon>
@@ -77,7 +78,7 @@ export default {
       { title: "home", icon: "mdi-home", route: "/" },
       { title: "Blogs", icon: "mdi-note", route: "/blogs" },
     ],
-    guest: true,
+    guest: false,
   }),
 };
 </script>

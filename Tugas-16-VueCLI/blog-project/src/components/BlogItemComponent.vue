@@ -1,6 +1,6 @@
 <template>
   <v-flex xs6>
-    <v-card to="`/blog/${blog.id}`">
+    <v-card :to="`/blog/${blog.id}`">
       <v-img :src="blog.photo ? apiDomain + blog.photo : 'https://www.ilmubahasainggris.com/wp-content/uploads/2017/03/NGC.jpg'" class="white--text" height="200px">
         <v-card-title class="fill-height align-end" v-text="blog.title"></v-card-title>
       </v-img>
