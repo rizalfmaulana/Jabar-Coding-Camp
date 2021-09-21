@@ -1,7 +1,26 @@
 <template>
-  <div class="about">
-    <h1>THis is Home page</h1>
-  </div>
+  <v-container class="ma-0 pa-0" grid-list-sm>
+    <div class="text-right">
+      <v-btn small text to="/blogs" class="blue--text"> All Blogs <v-icon>mdi-chevron-right</v-icon> </v-btn>
+    </div>
+    <v-layout wrap>
+      <v-flex v-for="blog in blogs" :key="`blog-${blog.id}`" xs6>
+        <v-card to="'/blog' + blog.id">
+          <v-img :src="blog.photo ? apiDomain + blog.photo : 'https://www.ilmubahasainggris.com/wp-content/uploads/2017/03/NGC.jpg'" class="white--text" height="200px">
+            <v-card-title class="fill-height align-end" v-text="blog.title"></v-card-title>
+          </v-img>
+
+          <v-card-actions>
+            <v-progress-linear color="blue-grey" height="7"></v-progress-linear>
+          </v-card-actions>
+
+          <v-card-actions>
+            <span>{{ blog.title.substring(0, 15) }}...</span>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -11,8 +30,17 @@ export default {
     blogs: [],
   }),
   created() {
-    const api = "http://demo-api-vue.sanbercloud.com/api/v2/blog/random/3";
-    this.axios.get(api).then((response) => console.log(response.data));
+    const config = {
+      method: "get",
+      url: this.apiDomain + "/api/v2/blog/random/4",
+    };
+    this.axios(config)
+      .then((response) => {
+        let { blogs } = response.data;
+        this.blogs = blogs;
+        console.log(this.blogs);
+      })
+      .catch((error) => console.log(error));
   },
 };
 </script>
