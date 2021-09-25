@@ -53,67 +53,33 @@
           <input type="button" value="cancel" @click="cancelForm" />
         </div>
       </form>
-      <table border="1">
-        <!-- <td>
-            <img width="100" :src="member.photo_profile ? photoDomain + member.photo_profile : 'https://dummyimage.com/600x400/000/fff'" alt="gambar" />
-          </td>
-          <td>
-            <b>Name: </b>{{member.name}} <br />
-            <b>Address: </b>{{member.address}} <br />
-            <b>No hp: </b>{{member.no_hp}} <br />
-          </td>
-          <td>
-            <button @click="editMember(member)">Edit</button>
-            <button @click="removeMember(member.id)">Hapus</button>
-            <button @click="uploadPhoto(member)">Upload Foto</button>
-          </td> -->
-        <member-component
-          v-for="member of members"
-          @editmember="editMember"
-          @removemember="removeMember"
-          @uploadphoto="uploadPhoto"
-          :photodomain="photoDomain"
-          v-bind:hp="member.no_hp"
-          v-bind:photo_profile="member.photo_profile"
-          v-bind:name="member.name"
-          v-bind:address="member.address"
-        ></member-component>
-      </table>
+
+      <member-component @upload="uploadPhoto($event)" @remove="removeMember($event)" @edit="editMember($event)" :member="members" :domain="photoDomain"></member-component>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
       const MembersComponent = {
         template: `
-        <tr>
+        <table border="1">
+        <tr v-for="item in member">
           <td>
-            <img width="100" :src="photo_profile ? photodomain + photo_profile : 'https://dummyimage.com/600x400/000/fff'" alt="gambar" />
+            <img width="100" :src="item.photo_profile ? domain + item.photo_profile : 'https://dummyimage.com/600x400/000/fff'" alt="gambar" />
           </td>
           <td>
-            <b>Name: </b>{{name}} <br />
-            <b>Address: </b>{{address}} <br />
-            <b>No hp: </b>{{no_hp}} <br />
+            <b>Name: </b>{{item.name}} <br />
+            <b>Address: </b>{{item.address}} <br />
+            <b>No hp: </b>{{item.no_hp}} <br />
           </td>
           <td>
-            <button @click="editmember(member)">Edit</button>
-            <button @click="removemember(id)">Hapus</button>
-            <button @click="uploadphoto(member)">Upload Foto</button>
-          </td>
-          
+            <button @click="$emit('edit', item)">Edit</button>
+            <button @click="$emit('remove', item.id)">Hapus</button>
+            <button @click="$emit('upload', item)">Upload Foto</button>
+          </td>     
         </tr>
+        </table>
         `,
-        props: ["name", "address", "id", "member", "no_hp", "photo_profile", "photodomain"],
-        methods: {
-          editmember() {
-            this.$emit("editMember", "member");
-          },
-          removemember() {
-            this.$emit("removeMember", "id");
-          },
-          uploadphoto() {
-            this.$emit("uploadPhoto", "member");
-          },
-        },
+        props: ["member", "domain"],
       };
       var vm = new Vue({
         el: "#app",
