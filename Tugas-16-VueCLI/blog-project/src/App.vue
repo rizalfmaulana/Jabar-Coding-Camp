@@ -29,7 +29,7 @@
 
         <v-divider></v-divider>
 
-        <v-list-item v-for="(item, index) in menus" :key="`menu-${index}`" :to="item.route">
+        <v-list-item v-for="(item, index) in menus" :key="`menu-${index}`" :to="item.route" @click.stop="drawer = !drawer">
           <v-list-item-icon>
             <v-icon left>{{ item.icon }}</v-icon>
           </v-list-item-icon>

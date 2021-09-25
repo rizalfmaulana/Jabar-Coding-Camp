@@ -45,14 +45,6 @@ export default {
         })
         .catch((error) => console.log(error));
     },
-
-    // increment(payload) {
-    //   this.$store.commit("increment", payload);
-    // },
-
-    // ...mapMutations({
-    //   increment: "counter/increment",
-    // }),
   },
   created() {
     console.log(this.$store.state.count);
