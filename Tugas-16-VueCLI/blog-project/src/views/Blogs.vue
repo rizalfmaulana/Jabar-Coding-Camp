@@ -38,7 +38,15 @@ export default {
           this.perPage = blogs.per_page;
           console.log(this.blogs);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          this.setAlert({
+            status: true,
+            color: "success",
+            text: error.messages,
+          });
+          this.close();
+        });
     },
   },
   created() {

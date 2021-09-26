@@ -16,7 +16,7 @@
   </v-card>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -24,16 +24,23 @@ export default {
       description: "",
     };
   },
+
   computed: {
     ...mapGetters({
       token: "auth/token",
     }),
   },
+
   methods: {
-    // ...mapActions({
-    //   setAlert: "alert/set",
-    //   setToken: "auth/setToken",
-    // }),
+    ...mapActions({
+      setAlert: "alert/set",
+      setToken: "auth/setToken",
+    }),
+
+    close() {
+      this.$emit("closed", false);
+    },
+
     submitForm: function(event) {
       event.preventDefault();
       console.log(this.token);
@@ -55,9 +62,21 @@ export default {
       this.axios(config)
         .then((response) => {
           console.log(response.data);
+          this.setAlert({
+            status: true,
+            color: "success",
+            text: "Blog berhasil ditambahkan",
+          });
+          this.close();
+          this.$router.push({ path: "/blogs" });
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((response) => {
+          console.log(response);
+          this.setAlert({
+            status: true,
+            color: "error",
+            text: "Silahkan login dahulu",
+          });
         });
     },
   },

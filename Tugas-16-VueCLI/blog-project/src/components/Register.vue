@@ -32,7 +32,7 @@ export default {
       showPassword: false,
       password: "",
       name: "",
-      apiDomain: "http://demo-api-vue.sanbercloud.com",
+      apiDomain: "https://demo-api-vue.sanbercloud.com",
     };
   },
   methods: {

@@ -48,7 +48,7 @@
       </template>
     </v-navigation-drawer>
 
-    <v-app-bar app color="success" dark>
+    <v-app-bar app color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Blog App</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -66,7 +66,7 @@
     </v-main>
 
     <v-footer app>
-      @rizal Fachrudin
+      Created by Rizal Fachrudin &amp; Abu Davi
     </v-footer>
   </v-app>
 </template>
@@ -88,7 +88,7 @@ export default {
       { title: "Blogs", icon: "mdi-note", route: "/blogs" },
       { title: "New Blogs", icon: "mdi-file-plus", route: "/newblog" },
     ],
-    apiDomain: "http://demo-api-vue.sanbercloud.com",
+    apiDomain: "https://demo-api-vue.sanbercloud.com",
   }),
   computed: {
     ...mapGetters({

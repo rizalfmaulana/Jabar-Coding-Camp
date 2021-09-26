@@ -30,7 +30,7 @@
         </div>
 
         <v-btn color="blue" dark>
-          <v-icon left>mdi-file-document-edit-outline</v-icon>
+          <v-icon @click="editBlog" left>mdi-file-document-edit-outline</v-icon>
           Edit
         </v-btn>
         <v-btn color="red" dark @click="deleteBlog">
@@ -39,6 +39,16 @@
         </v-btn>
       </div>
     </v-card>
+    <v-form ref="form" v-if="edit" @submit="editForm($event)">
+      <v-text-field v-model="title" value="blog.title" label="Title" required append-icon="mdi-format-title"> </v-text-field>
+      <v-text-field v-model="description" value="blog.description" label="Description" required append-icon="mdi-subtitles"> </v-text-field>
+      <div class="text-xs-center">
+        <v-btn type="submit" color="success lighten-1">
+          Edit Blog
+          <v-icon right dark>mdi-plus-box-multiple-outline</v-icon>
+        </v-btn>
+      </div>
+    </v-form>
   </div>
 </template>
 
@@ -49,6 +59,9 @@ export default {
     blog: {},
     apiDomain: "https://demo-api-vue.sanbercloud.com",
     photoDomain: "https://demo-api-vue.sanbercloud.com",
+    title: "",
+    description: "",
+    edit: false,
   }),
   computed: {
     ...mapGetters({
@@ -96,7 +109,7 @@ export default {
       this.axios(config)
         .then((response) => {
           console.log(response.data);
-
+          this.go();
           this.setAlert({
             status: true,
             color: "success",
@@ -127,10 +140,66 @@ export default {
       this.axios(config)
         .then((response) => {
           console.log(response);
-          alert(response.data.message);
+          this.setAlert({
+            status: true,
+            color: "success",
+            text: "Blog berhasil dihapus",
+          });
+          this.close();
+          this.$router.push({ path: "/blogs" });
         })
         .catch((error) => {
           console.log(error);
+          this.setAlert({
+            status: true,
+            color: "success",
+            text: error.messages,
+          });
+          this.close();
+        });
+    },
+    editBlog() {
+      console.log("tes edit");
+      this.edit = true;
+      this.title = this.blog.title;
+      this.description = this.blog.description;
+    },
+    editForm: function(event) {
+      event.preventDefault();
+      let { id } = this.$route.params;
+      let formData = new FormData();
+      formData.append("title", this.title);
+      formData.append("description", this.description);
+
+      const config = {
+        method: "post",
+        url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${id}`,
+        params: { _method: "PUT" },
+        data: formData,
+        headers: {
+          Authorization: "Bearer" + this.token,
+        },
+      };
+
+      this.axios(config)
+        .then(() => {
+          this.setAlert({
+            status: true,
+            color: "success",
+            text: "Blog berhasil diedit",
+          });
+          this.close();
+          this.go();
+          this.edit = false;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.setAlert({
+            status: true,
+            color: "success",
+            text: error.messages,
+          });
+          this.close();
         });
     },
   },
