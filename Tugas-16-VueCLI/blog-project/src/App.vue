@@ -88,7 +88,7 @@ export default {
       { title: "Blogs", icon: "mdi-note", route: "/blogs" },
       { title: "New Blogs", icon: "mdi-file-plus", route: "/newblog" },
     ],
-    apiDomain: "https://demo-api-vue.sanbercloud.com",
+    apiDomain: "http://demo-api-vue.sanbercloud.com",
   }),
   computed: {
     ...mapGetters({

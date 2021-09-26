@@ -3,8 +3,8 @@
     <v-divider></v-divider>
     <v-container fluid>
       <v-form ref="form" @submit="submitForm($event)">
-        <v-text-field label="Title" required append-icon="mdi-format-title"></v-text-field>
-        <v-text-field label="Description" required append-icon="mdi-subtitles"></v-text-field>
+        <v-text-field v-model="title" label="Title" required append-icon="mdi-format-title"></v-text-field>
+        <v-text-field v-model="description" label="Description" required append-icon="mdi-subtitles"></v-text-field>
         <div class="text-xs-center">
           <v-btn type="submit" color="success lighten-1">
             Add Blog
@@ -16,7 +16,7 @@
   </v-card>
 </template>
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -30,28 +30,28 @@ export default {
     }),
   },
   methods: {
-    ...mapActions({
-      setAlert: "alert/set",
-      setToken: "auth/setToken",
-    }),
+    // ...mapActions({
+    //   setAlert: "alert/set",
+    //   setToken: "auth/setToken",
+    // }),
     submitForm: function(event) {
       event.preventDefault();
       console.log(this.token);
+      console.log(this.title, this.description);
 
       let formData = new FormData();
       formData.append("title", this.title);
       formData.append("description", this.description);
 
-      let header = {
-        "Content-type": "application/json",
-        Authorization: "Bearer " + this.token,
-      };
       const config = {
         method: "post",
         url: "https://demo-api-vue.sanbercloud.com/api/v2/blog",
         data: formData,
-        headers: header,
+        headers: {
+          Authorization: "Bearer" + this.token,
+        },
       };
+
       this.axios(config)
         .then((response) => {
           console.log(response.data);
